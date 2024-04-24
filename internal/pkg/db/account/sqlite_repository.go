@@ -21,6 +21,17 @@ func (r *SQLiteRepository) Create(ctx context.Context, payload Account) error {
 		"INSERT INTO account (account_id, user_id, balance) VALUES (?, ?, ?)",
 		payload.AccountId, payload.UserId, payload.Balance,
 	)
+
+	return err
+}
+
+func (r *SQLiteRepository) Update(ctx context.Context, payload Account) error {
+	_, err := r.db.ExecContext(
+		ctx,
+		"UPDATE account SET balance = ? WHERE account_id = ?",
+		payload.Balance, payload.AccountId,
+	)
+
 	return err
 }
 

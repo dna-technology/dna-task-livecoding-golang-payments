@@ -21,6 +21,7 @@ func (r *SQLiteRepository) Create(ctx context.Context, payload Payment) error {
 		"INSERT INTO payment (payment_id, user_id, merchant_id, amount) VALUES (?, ?, ?, ?)",
 		payload.PaymentId, payload.UserId, payload.MerchantId, payload.Amount,
 	)
+
 	return err
 }
 

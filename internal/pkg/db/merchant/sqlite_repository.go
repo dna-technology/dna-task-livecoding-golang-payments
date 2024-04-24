@@ -21,6 +21,7 @@ func (r *SQLiteRepository) Create(ctx context.Context, payload Merchant) error {
 		"INSERT INTO merchant (name, merchant_id) VALUES (?, ?)",
 		payload.Name, payload.MerchantId,
 	)
+
 	return err
 }
 

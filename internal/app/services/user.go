@@ -6,19 +6,43 @@ import (
 
 	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/db/user"
 	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/dto"
+	"github.com/google/uuid"
 )
 
 type UserService struct {
 	userRepository user.Repository
+	accountService *AccountService
 }
 
 func NewUserService(db *sql.DB) *UserService {
 	ur := user.NewSQLiteRepository(db)
+	as := NewAccountService(db)
 
-	return &UserService{userRepository: ur}
+	return &UserService{
+		userRepository: ur,
+		accountService: as,
+	}
 }
 
-func (us *UserService) CreateUser() {}
+func (us *UserService) CreateUser(ctx context.Context, payload dto.UserDto) (dto.UserDto, error) {
+	userDto := dto.UserDto{
+		UserId:   uuid.NewString(),
+		FullName: payload.FullName,
+		Email:    payload.Email,
+	}
+
+	err := us.userRepository.Create(ctx, userDto.ToEntity())
+	if err != nil {
+		return userDto, err
+	}
+
+	_, err = us.accountService.CreateUserAccount(ctx, userDto.UserId)
+	if err != nil {
+		return userDto, err
+	}
+
+	return userDto, err
+}
 
 func (us *UserService) GetUser(ctx context.Context, userId string) (dto.UserDto, error) {
 	var userDto dto.UserDto
