@@ -15,3 +15,11 @@ func (u *UserDto) FromEntity(entity user.User) UserDto {
 		Email:    entity.Email,
 	}
 }
+
+func (u *UserDto) ToEntity() user.User {
+	return user.User{
+		UserId:   u.UserId,
+		FullName: u.FullName,
+		Email:    u.Email,
+	}
+}

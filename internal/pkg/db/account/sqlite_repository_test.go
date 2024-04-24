@@ -24,6 +24,32 @@ func TestCreate(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestUpdate(t *testing.T) {
+	db, _ := sql.Open("sqlite3", "../../../../test-database.sqlite")
+	ctx := context.Background()
+
+	repo := NewSQLiteRepository(db)
+
+	userId := uuid.New().String()
+	accountId := uuid.New().String()
+
+	err := repo.Create(ctx, Account{
+		AccountId: accountId,
+		UserId:    userId,
+		Balance:   0,
+	})
+	assert.NoError(t, err)
+
+	err = repo.Update(ctx, Account{
+		AccountId: accountId,
+		Balance:   10,
+	})
+	assert.NoError(t, err)
+
+	result, _ := repo.GetByAccountId(ctx, accountId)
+	assert.Equal(t, int64(10), result.Balance)
+}
+
 func TestGetByAccountId(t *testing.T) {
 	db, _ := sql.Open("sqlite3", "../../../../test-database.sqlite")
 	ctx := context.Background()

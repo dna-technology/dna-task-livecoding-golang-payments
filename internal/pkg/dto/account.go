@@ -15,3 +15,11 @@ func (a *AccountDto) FromEntity(entity account.Account) AccountDto {
 		Balance:   entity.Balance,
 	}
 }
+
+func (a *AccountDto) ToEntity() account.Account {
+	return account.Account{
+		UserId:    a.UserId,
+		AccountId: a.AccountId,
+		Balance:   a.Balance,
+	}
+}
