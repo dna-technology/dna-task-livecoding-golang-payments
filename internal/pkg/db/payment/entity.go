@@ -5,5 +5,5 @@ type Payment struct {
 	PaymentId  string
 	UserId     string
 	MerchantId string
-	Amount     int64
+	Amount     float32
 }

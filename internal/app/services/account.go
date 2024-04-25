@@ -23,7 +23,7 @@ func (as *AccountService) CreateUserAccount(ctx context.Context, userId string) 
 	accountDto := dto.AccountDto{
 		UserId:    userId,
 		AccountId: uuid.NewString(),
-		Balance:   int64(0),
+		Balance:   float32(0),
 	}
 
 	err := as.accountRepository.Create(ctx, accountDto.ToEntity())
@@ -45,7 +45,7 @@ func (as *AccountService) GetUserAccount(ctx context.Context, userId string) (dt
 	return accountDto.FromEntity(account), nil
 }
 
-func (as *AccountService) IncreaseBalance(ctx context.Context, accountId string, amount int64) (dto.AccountDto, error) {
+func (as *AccountService) IncreaseBalance(ctx context.Context, accountId string, amount float32) (dto.AccountDto, error) {
 	var accountDto dto.AccountDto
 
 	a, err := as.accountRepository.GetByAccountId(ctx, accountId)
@@ -66,7 +66,7 @@ func (as *AccountService) IncreaseBalance(ctx context.Context, accountId string,
 	return payload, nil
 }
 
-func (as *AccountService) DecreaseBalance(ctx context.Context, accountId string, amount int64) (dto.AccountDto, error) {
+func (as *AccountService) DecreaseBalance(ctx context.Context, accountId string, amount float32) (dto.AccountDto, error) {
 	var accountDto dto.AccountDto
 
 	a, err := as.accountRepository.GetByAccountId(ctx, accountId)

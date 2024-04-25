@@ -5,14 +5,15 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-	"github.com/dna-technology/dna-task-livecoding-golang/internal/app/services"
-	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/db/payment"
-	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/dto"
-	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/dna-technology/dna-task-livecoding-golang/internal/app/services"
+	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/db/payment"
+	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/dto"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestTransactionRouter_AddPayment(t *testing.T) {
@@ -21,7 +22,7 @@ func TestTransactionRouter_AddPayment(t *testing.T) {
 	merchantId := thereIsAMerchant(db)
 	initialBalance := userHasInitialBalance(db, userId, 100)
 
-	amount := int64(10)
+	amount := float32(10)
 	requestBody, _ := json.Marshal(map[string]any{
 		"userId":     userId,
 		"merchantId": merchantId,
@@ -59,7 +60,7 @@ func thereIsAMerchant(db *sql.DB) string {
 	return merchant.MerchantId
 }
 
-func userHasInitialBalance(db *sql.DB, userId string, amount int64) int64 {
+func userHasInitialBalance(db *sql.DB, userId string, amount float32) float32 {
 	accountService := services.NewAccountService(db)
 
 	account, _ := accountService.GetUserAccount(context.Background(), userId)
@@ -77,14 +78,14 @@ func getPaymentDtoFrom(resp *http.Response) dto.PaymentDto {
 	return response
 }
 
-func assertPaymentDtoResponse(t *testing.T, response dto.PaymentDto, userId string, merchantId string, amount int64) {
+func assertPaymentDtoResponse(t *testing.T, response dto.PaymentDto, userId string, merchantId string, amount float32) {
 	assert.NotEmpty(t, response.PaymentId)
 	assert.Equal(t, response.UserId, userId)
 	assert.Equal(t, response.MerchantId, merchantId)
 	assert.Equal(t, response.Amount, amount)
 }
 
-func assertPaymentStored(t *testing.T, db *sql.DB, response dto.PaymentDto, userId string, merchantId string, amount int64) {
+func assertPaymentStored(t *testing.T, db *sql.DB, response dto.PaymentDto, userId string, merchantId string, amount float32) {
 	createdPayment, err := payment.NewSQLiteRepository(db).GetByPaymentId(context.Background(), response.PaymentId)
 	assert.Nil(t, err)
 	assert.Equal(t, createdPayment.UserId, userId)
@@ -92,7 +93,7 @@ func assertPaymentStored(t *testing.T, db *sql.DB, response dto.PaymentDto, user
 	assert.Equal(t, createdPayment.Amount, amount)
 }
 
-func assertAccountBalanceDecreased(t *testing.T, db *sql.DB, userId string, initialBalance int64, amount int64) {
+func assertAccountBalanceDecreased(t *testing.T, db *sql.DB, userId string, initialBalance float32, amount float32) {
 	account, err := services.NewAccountService(db).GetUserAccount(context.Background(), userId)
 	assert.Nil(t, err)
 	assert.Equal(t, initialBalance-amount, account.Balance)
