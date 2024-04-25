@@ -4,5 +4,5 @@ type Account struct {
 	Id        int64
 	AccountId string
 	UserId    string
-	Balance   int64
+	Balance   float32
 }

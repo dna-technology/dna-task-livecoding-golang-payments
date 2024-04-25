@@ -20,7 +20,7 @@ func TestCreateUserAccount(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, userId, createdAccount.UserId)
-	assert.Equal(t, int64(0), createdAccount.Balance)
+	assert.Equal(t, float32(0), createdAccount.Balance)
 	assert.NotEmpty(t, createdAccount.AccountId)
 }
 
@@ -53,7 +53,7 @@ func TestIncreaseBalance(t *testing.T) {
 	updatedAccount, err := as.IncreaseBalance(ctx, createdAccount.AccountId, 10)
 
 	assert.NoError(t, err)
-	assert.Equal(t, int64(10), updatedAccount.Balance)
+	assert.Equal(t, float32(10), updatedAccount.Balance)
 }
 
 func TestDecreaseBalance(t *testing.T) {
@@ -69,10 +69,10 @@ func TestDecreaseBalance(t *testing.T) {
 	updatedAccount, err := as.IncreaseBalance(ctx, createdAccount.AccountId, 10)
 
 	assert.NoError(t, err)
-	assert.Equal(t, int64(10), updatedAccount.Balance)
+	assert.Equal(t, float32(10), updatedAccount.Balance)
 
 	updatedAccount, err = as.DecreaseBalance(ctx, createdAccount.AccountId, 5)
 
 	assert.NoError(t, err)
-	assert.Equal(t, int64(5), updatedAccount.Balance)
+	assert.Equal(t, float32(5), updatedAccount.Balance)
 }

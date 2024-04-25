@@ -24,7 +24,7 @@ func TestAddPayment_Success(t *testing.T) {
 	})
 	createdMerchant, _ := ms.CreateMerchant(ctx, "testing payment")
 	account, _ := as.GetUserAccount(ctx, createdUser.UserId)
-	_, _ = as.IncreaseBalance(ctx, account.AccountId, int64(100))
+	_, _ = as.IncreaseBalance(ctx, account.AccountId, float32(100))
 
 	addedPayment, err := ps.AddPayment(ctx, dto.PaymentDto{
 		MerchantId: createdMerchant.MerchantId,
@@ -35,11 +35,11 @@ func TestAddPayment_Success(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, createdUser.UserId, addedPayment.UserId)
 	assert.Equal(t, createdMerchant.MerchantId, addedPayment.MerchantId)
-	assert.Equal(t, int64(10), addedPayment.Amount)
+	assert.Equal(t, float32(10), addedPayment.Amount)
 
 	account, _ = as.GetUserAccount(ctx, createdUser.UserId)
 
-	assert.Equal(t, int64(90), account.Balance)
+	assert.Equal(t, float32(90), account.Balance)
 }
 
 func TestAddPayment_Error(t *testing.T) {

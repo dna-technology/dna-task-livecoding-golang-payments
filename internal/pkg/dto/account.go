@@ -5,7 +5,7 @@ import "github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/db/acc
 type AccountDto struct {
 	AccountId string
 	UserId    string
-	Balance   int64
+	Balance   float32
 }
 
 func (a *AccountDto) FromEntity(entity account.Account) AccountDto {
