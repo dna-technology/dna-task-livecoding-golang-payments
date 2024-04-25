@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"github.com/dna-technology/dna-task-livecoding-golang/internal/app/services"
 	"log"
 	"net/http"
 	"time"
@@ -16,13 +15,6 @@ import (
 type config struct {
 	port int
 	dsn  string
-}
-
-type Application struct {
-	accountService  *services.AccountService
-	merchantService *services.MerchantService
-	paymentService  *services.PaymentService
-	userService     *services.UserService
 }
 
 func main() {
@@ -38,25 +30,14 @@ func main() {
 
 	defer db.Close()
 
-	app := NewApplication(db)
-
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", cfg.port),
-		Handler: app.routes(),
+		Handler: routes(db),
 	}
 
 	log.Printf("Starting server on %s", srv.Addr)
 	err = srv.ListenAndServe()
 	log.Fatal(err)
-}
-
-func NewApplication(db *sql.DB) *Application {
-	return &Application{
-		accountService:  services.NewAccountService(db),
-		merchantService: services.NewMerchantService(db),
-		paymentService:  services.NewPaymentService(db),
-		userService:     services.NewUserService(db),
-	}
 }
 
 func openDB(cfg config) (*sql.DB, error) {
