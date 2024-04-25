@@ -25,7 +25,7 @@ func TestUserRouter_CreateUser(t *testing.T) {
 	})
 
 	// fixme
-	server := httptest.NewServer(routes(db))
+	server := httptest.NewServer(Routes(db))
 	defer server.Close()
 
 	resp, err := server.Client().Post(server.URL+"/users", "application/json", bytes.NewReader(requestBody))

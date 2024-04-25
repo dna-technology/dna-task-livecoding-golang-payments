@@ -29,7 +29,7 @@ func TestTransactionRouter_AddPayment(t *testing.T) {
 	})
 
 	// fixme
-	server := httptest.NewServer(routes(db))
+	server := httptest.NewServer(Routes(db))
 	defer server.Close()
 
 	resp, err := server.Client().Post(server.URL+"/transactions", "application/json", bytes.NewReader(requestBody))

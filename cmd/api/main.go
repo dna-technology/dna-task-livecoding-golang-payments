@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
+	"github.com/dna-technology/dna-task-livecoding-golang/internal/app/routers"
 	"log"
 	"net/http"
 	"time"
@@ -32,7 +33,7 @@ func main() {
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", cfg.port),
-		Handler: routes(db),
+		Handler: routers.Routes(db),
 	}
 
 	log.Printf("Starting server on %s", srv.Addr)
