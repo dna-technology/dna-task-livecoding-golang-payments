@@ -1,6 +1,6 @@
 # How should I start
-1. check if TheApplication is starting.
-2. run tests by using mvn wrapper to check if everything works fine.
+1. Run tests - `make test`
+2. Check if application starts `make run`
 
 ## Scenario
 Let’s imagine you are working on API for backend of online payment system.
