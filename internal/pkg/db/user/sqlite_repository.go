@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -28,7 +29,7 @@ func (r *SQLiteRepository) Create(ctx context.Context, payload User) error {
 func (r *SQLiteRepository) GetByUserId(ctx context.Context, userId string) (User, error) {
 	var user User
 
-	row := r.db.QueryRowContext(ctx, "SELECT id, user_id, full_name, email FROM user WHERE user_id = ?", userId)
+	row := r.db.QueryRowContext(ctx, fmt.Sprintf("SELECT id, user_id, full_name, email FROM user WHERE user_id = '%s'", userId))
 	err := row.Scan(&user.Id, &user.UserId, &user.FullName, &user.Email)
 
 	if err != nil {
