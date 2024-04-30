@@ -2,7 +2,7 @@ test:
 	go test -v ./...
 
 run:
-	go run ./cmd/api
+	go run ./cmd
 
 build:
-	go build -o=./bin/payments ./cmd/api
+	go build -o=./bin/payments ./cmd
