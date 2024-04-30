@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"database/sql"
+	"log"
 
 	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/db/merchant"
 	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/dto"
@@ -24,6 +25,8 @@ func (ms *MerchantService) CreateMerchant(ctx context.Context, name string) (dto
 		Name:       name,
 		MerchantId: uuid.NewString(),
 	}
+
+	log.Printf("About to create merchant (name: %q, merchantId: %q)", merchantDto.Name, merchantDto.MerchantId)
 
 	err := ms.merchantRepository.Create(ctx, merchantDto.ToEntity())
 	if err != nil {
