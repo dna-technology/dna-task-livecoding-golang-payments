@@ -29,7 +29,6 @@ func TestTransactionRouter_AddPayment(t *testing.T) {
 		"amount":     amount,
 	})
 
-	// fixme
 	server := httptest.NewServer(Routes(db))
 	defer server.Close()
 

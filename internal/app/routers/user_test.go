@@ -5,13 +5,14 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-	"github.com/dna-technology/dna-task-livecoding-golang/internal/app/services"
-	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/dto"
-	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/dna-technology/dna-task-livecoding-golang/internal/app/services"
+	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/dto"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestUserRouter_CreateUser(t *testing.T) {
@@ -24,7 +25,6 @@ func TestUserRouter_CreateUser(t *testing.T) {
 		"email":    email,
 	})
 
-	// fixme
 	server := httptest.NewServer(Routes(db))
 	defer server.Close()
 

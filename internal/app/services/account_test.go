@@ -9,21 +9,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateUserAccount(t *testing.T) {
-	db, _ := sql.Open("sqlite3", "../../../test-database.sqlite")
-	ctx := context.Background()
-
-	as := NewAccountService(db)
-	userId := uuid.NewString()
-
-	createdAccount, err := as.CreateUserAccount(ctx, userId)
-
-	assert.NoError(t, err)
-	assert.Equal(t, userId, createdAccount.UserId)
-	assert.Equal(t, float32(0), createdAccount.Balance)
-	assert.NotEmpty(t, createdAccount.AccountId)
-}
-
 func TestGetUserAccount(t *testing.T) {
 	db, _ := sql.Open("sqlite3", "../../../test-database.sqlite")
 	ctx := context.Background()

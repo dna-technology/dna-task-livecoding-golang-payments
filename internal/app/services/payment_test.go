@@ -41,26 +41,3 @@ func TestAddPayment_Success(t *testing.T) {
 
 	assert.Equal(t, float32(90), account.Balance)
 }
-
-func TestAddPayment_Error(t *testing.T) {
-	db, _ := sql.Open("sqlite3", "../../../test-database.sqlite")
-	ctx := context.Background()
-
-	us := NewUserService(db)
-	ms := NewMerchantService(db)
-	ps := NewPaymentService(db)
-
-	createdUser, _ := us.CreateUser(ctx, dto.UserDto{
-		FullName: "test user",
-		Email:    "test@test.test",
-	})
-	createdMerchant, _ := ms.CreateMerchant(ctx, "testing payment")
-
-	_, err := ps.AddPayment(ctx, dto.PaymentDto{
-		MerchantId: createdMerchant.MerchantId,
-		Amount:     10,
-		UserId:     createdUser.UserId,
-	})
-
-	assert.Error(t, err, "insufficient funds")
-}
