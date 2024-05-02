@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"log"
 
 	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/db/payment"
 	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/dto"
@@ -38,6 +39,8 @@ func (ps *PaymentService) AddPayment(ctx context.Context, payload dto.PaymentDto
 		Amount:     payload.Amount,
 		MerchantId: payload.MerchantId,
 	}
+
+	log.Printf("About to add payment (paymentId: %q, userId: %q, amount: %f, merchantId: %q)", paymentDto.PaymentId, paymentDto.UserId, paymentDto.Amount, paymentDto.MerchantId)
 
 	_, err := ps.userService.GetUser(ctx, paymentDto.UserId)
 	if err != nil {

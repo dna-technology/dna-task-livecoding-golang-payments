@@ -3,10 +3,10 @@ package services
 import (
 	"context"
 	"database/sql"
-
 	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/db/account"
 	"github.com/dna-technology/dna-task-livecoding-golang/internal/pkg/dto"
 	"github.com/google/uuid"
+	"log"
 )
 
 type AccountService struct {
@@ -26,6 +26,7 @@ func (as *AccountService) CreateUserAccount(ctx context.Context, userId string) 
 		Balance:   float32(0),
 	}
 
+	log.Printf("About to create account (userId: %q, accountId: %q)", accountDto.UserId, accountDto.AccountId)
 	err := as.accountRepository.Create(ctx, accountDto.ToEntity())
 	if err != nil {
 		return accountDto, err
